@@ -81656,7 +81656,7 @@
     var backgroundimg;
     var birdimg1;
     var groundimg;
-
+    var pipedownimg;
     //Create objects with constructors
     var myCanvas = new canvas(400, 600);
 
@@ -81676,6 +81676,8 @@
     backgroundimg = loadImage("https://preview.ibb.co/ewCSrp/background.png");
     birdimg1 = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/bird.atlas/bird-01.png");
     groundimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/land.imageset/land.png");
+    pipedownimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/PipeDown.imageset/PipeDown.png");
+    pipeupimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/PipeUp.imageset/PipeUp.png");
     };
     function setup() {
       createCanvas(myCanvas.X, myCanvas.Y);
@@ -81701,15 +81703,18 @@
         image(groundimg, groundX2, myCanvas.floor);
         image(groundimg, groundX3, myCanvas.floor);
         //Obstacle models
-        fill(0, 255, 100);
+        fill(0, 255, 100, 0);
 
         myUpperObstacle1.X = myCanvas.X - (myUpperObstacle1.speed * time) + (myWave.count1 * (myCanvas.X + myUpperObstacle1.width));
         myUpperObstacle1.height = obstacleHeight + ((myWave.count1 * 17 % 3) * 50);
         rect(myUpperObstacle1.X, myUpperObstacle1.Y, myUpperObstacle1.width, myUpperObstacle1.height);
+        image(pipedownimg, myUpperObstacle1.X - 1, myUpperObstacle1.Y, pipedownimg.width * ((myUpperObstacle1.width + 2)/pipedownimg.width), pipedownimg.height * (myUpperObstacle1.height/pipedownimg.height));
+
 
         myLowerObstacle1.X = myCanvas.X - (myLowerObstacle1.speed * time) + (myWave.count1 * (myCanvas.X + myLowerObstacle1.width));
         myLowerObstacle1.height = -obstacleHeight + ((myWave.count1 * 8 % 3) * 50);
         rect(myLowerObstacle1.X, myLowerObstacle1.Y, myLowerObstacle1.width, myLowerObstacle1.height);
+        image(pipeupimg, myLowerObstacle1.X - 1, myLowerObstacle1.Y, pipeupimg.width * ((myLowerObstacle1.width + 2)/pipeupimg.width), pipeupimg.height * (myLowerObstacle1.height/pipeupimg.height));
 
         myUpperObstacle2.X = myCanvas.X - (myUpperObstacle2.speed * time) + ((myWave.count2 - 0.5) * (myCanvas.X + myUpperObstacle2.width));
         myUpperObstacle2.height = obstacleHeight - ((myWave.count2 * 23 % 3) * 50);
@@ -81717,7 +81722,10 @@
         if (time < 120){
         } else {
         rect(myUpperObstacle2.X, myUpperObstacle2.Y, myUpperObstacle2.width, myUpperObstacle2.height);
+        image(pipedownimg, myUpperObstacle2.X - 1, myUpperObstacle2.Y, pipedownimg.width * ((myUpperObstacle2.width + 2)/pipedownimg.width), pipedownimg.height * (myUpperObstacle2.height/pipedownimg.height));
+
         rect(myLowerObstacle2.X, myLowerObstacle2.Y, myLowerObstacle2.width, myLowerObstacle2.height);
+        image(pipeupimg, myLowerObstacle2.X - 1, myLowerObstacle2.Y, pipeupimg.width * ((myLowerObstacle2.width + 2)/pipeupimg.width), pipeupimg.height * (myLowerObstacle2.height/pipeupimg.height));
         };
 
         myLowerObstacle2.X = myCanvas.X - (myLowerObstacle2.speed * time) + ((myWave.count2 - 0.5) * (myCanvas.X + myLowerObstacle2.width));
