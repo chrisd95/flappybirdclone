@@ -81757,10 +81757,21 @@
       // text(myUpperObstacle1.X, 200, 200);
       fill(0);
       timeB = timeB + 1;
-      fill(0, 100, 255);
-      text(time, 50, 50);
-      score = myWave.count1 + myWave.count2
-      text(score, myCanvas.X/2, 50);
+      fill(255);
+      // text(time, 50, 50);
+
+      score = (Math.floor(2 * (time-175) / myWave.period)) + Math.floor((2* (time-175) + myWave.period/2)/ myWave.period);
+
+      if (score < 0){
+        scorereal = 0
+      } else {
+        scorereal = score + 1
+      };
+
+      strokeWeight(10);
+      textSize(40);
+
+      text(scorereal, (myCanvas.X/2) - 10, 50);
       // text(myLowerObstacle1.Y, 300, 300);
       // text(myLowerObstacle1.X, 350, 300);
     };
