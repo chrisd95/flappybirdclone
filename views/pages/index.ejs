@@ -81651,9 +81651,13 @@
     collision = false;
     Vy = gravity * -15;
     value = 0;
-    var img;
-    //Create objects with constructors
+    score = 0;
 
+    var backgroundimg;
+    var birdimg1;
+    var groundimg;
+
+    //Create objects with constructors
     var myCanvas = new canvas(400, 600);
 
     var myBird = new bird(myCanvas.X * 0.15, myCanvas.Y * 0.65, 20, 20);
@@ -81669,7 +81673,9 @@
     var myWave = new wave(myCanvas.X, obstacleWidth, obstacleSpeed);
 
     function preload() {
-    img = loadImage('images/background.png');
+    backgroundimg = loadImage("https://preview.ibb.co/ewCSrp/background.png");
+    birdimg1 = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/bird.atlas/bird-01.png");
+    groundimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/land.imageset/land.png");
     };
     function setup() {
       createCanvas(myCanvas.X, myCanvas.Y);
@@ -81679,7 +81685,8 @@
 
       //Background
       fill(150);
-      background(230, 230, 230);
+      image(backgroundimg, 0, 0);
+
       strokeWeight(0);
 
       //Models
@@ -81687,6 +81694,12 @@
         fill(185, 185, 185);
         rect(0, myCanvas.floor, myCanvas.X, myCanvas.height);
 
+        groundX1 = 0 - (obstacleSpeed * time) + (myWave.count1 * (myCanvas.X + myUpperObstacle1.width));
+        groundX2 = 336 - (obstacleSpeed * time) + (myWave.count1 * (myCanvas.X + myUpperObstacle1.width));
+        groundX3 = 336*2 - (obstacleSpeed * time) + (myWave.count1 * (myCanvas.X + myUpperObstacle1.width));
+        image(groundimg, groundX1, myCanvas.floor);
+        image(groundimg, groundX2, myCanvas.floor);
+        image(groundimg, groundX3, myCanvas.floor);
         //Obstacle models
         fill(0, 255, 100);
 
@@ -81700,29 +81713,34 @@
 
         myUpperObstacle2.X = myCanvas.X - (myUpperObstacle2.speed * time) + ((myWave.count2 - 0.5) * (myCanvas.X + myUpperObstacle2.width));
         myUpperObstacle2.height = obstacleHeight - ((myWave.count2 * 23 % 3) * 50);
+
+        if (time < 120){
+        } else {
         rect(myUpperObstacle2.X, myUpperObstacle2.Y, myUpperObstacle2.width, myUpperObstacle2.height);
+        rect(myLowerObstacle2.X, myLowerObstacle2.Y, myLowerObstacle2.width, myLowerObstacle2.height);
+        };
 
         myLowerObstacle2.X = myCanvas.X - (myLowerObstacle2.speed * time) + ((myWave.count2 - 0.5) * (myCanvas.X + myLowerObstacle2.width));
         myLowerObstacle2.height = -obstacleHeight - ((myWave.count2 * 23 % 3) * 50);
-        rect(myLowerObstacle2.X, myLowerObstacle2.Y, myLowerObstacle2.width, myLowerObstacle2.height);
 
         // Character model
-        fill(200, 200, 90);
-
+        fill(200, 200, 90, 0);
           //Collision logic
           grounded = myBird.Y + myBird.height >= myCanvas.floor
           upperHit1 = ((myBird.X + myBird.width >= myUpperObstacle1.X) && (myBird.Y <= myUpperObstacle1.height) && (myBird.X <= myUpperObstacle1.X + myUpperObstacle1.width));
           lowerHit1 = ((myBird.X + myBird.width >= myLowerObstacle1.X)) && (myBird.Y + myBird.height >= myLowerObstacle1.Y + myLowerObstacle1.height) && (myBird.X <= myLowerObstacle1.X + myLowerObstacle1.width);
           upperHit2 = ((myBird.X + myBird.width >= myUpperObstacle2.X) && (myBird.Y <= myUpperObstacle2.height) && (myBird.X <= myUpperObstacle2.X + myUpperObstacle2.width));
           lowerHit2 = ((myBird.X + myBird.width >= myLowerObstacle2.X)) && (myBird.Y + myBird.height >= myLowerObstacle2.Y + myLowerObstacle2.height) && (myBird.X <= myLowerObstacle2.X + myLowerObstacle2.width);
+          juststarted = (time > 120);
 
-        if (grounded || upperHit1 || upperHit2 || lowerHit1 || lowerHit2){
+        if (grounded || upperHit1 || upperHit2 || lowerHit1 || lowerHit2 && juststarted){
           collision = true;
         } else {
           myBird.Y = myBird.Y + Vy * timeB + gravity * timeB**2;
           time = time + 1;
           collision = false;
-        }
+        };
+        image(birdimg1, myBird.X, myBird.Y)
 
         // text(collision, 50, 180)
 
@@ -81741,6 +81759,8 @@
       timeB = timeB + 1;
       fill(0, 100, 255);
       text(time, 50, 50);
+      score = myWave.count1 + myWave.count2
+      text(score, myCanvas.X/2, 50);
       // text(myLowerObstacle1.Y, 300, 300);
       // text(myLowerObstacle1.X, 350, 300);
     };
