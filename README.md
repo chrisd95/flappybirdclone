@@ -5,3 +5,5 @@ Displayed with HTML/CSS and deployed through Node.js on Heroku by using the Gett
 
 ## Running Locally
 Needs to be run on a local server due to loading of sprite images with the loadImage() function.
+
+Currently deployed on heroku : https://morning-basin-60063.herokuapp.com/
