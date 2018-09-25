@@ -81643,6 +81643,9 @@
     var birdimg1;
     var groundimg;
     var pipedownimg;
+    var pipedowncapimg;
+    var pipeupimg;
+    var pipeupcapimg;
     //Create objects with constructors
     var myCanvas = new canvas(400, 600);
 
@@ -81662,8 +81665,10 @@
     backgroundimg = loadImage("https://preview.ibb.co/ewCSrp/background.png");
     birdimg1 = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/bird.atlas/bird-01.png");
     groundimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/land.imageset/land.png");
-    pipedownimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/PipeDown.imageset/PipeDown.png");
-    pipeupimg = loadImage("https://raw.githubusercontent.com/fullstackio/FlappySwift/master/FlappyBird/Images.xcassets/PipeUp.imageset/PipeUp.png");
+    pipedownimg = loadImage("https://image.ibb.co/jBH9cU/Pipe_Down_2.png");
+    pipedowncapimg = loadImage("https://image.ibb.co/mtZcWp/PipeDown.png");
+    pipeupimg = loadImage("https://image.ibb.co/dFeVHU/PipeUp.png");
+    pipeupcapimg = loadImage("https://image.ibb.co/fhnHxU/Pipe_Up_1.png");
     };
     function setup() {
       createCanvas(myCanvas.X, myCanvas.Y);
@@ -81694,13 +81699,18 @@
         myUpperObstacle1.X = myCanvas.X - (myUpperObstacle1.speed * time) + (myWave.count1 * (myCanvas.X + myUpperObstacle1.width));
         myUpperObstacle1.height = obstacleHeight + ((myWave.count1 * 17 % 3) * 50);
         rect(myUpperObstacle1.X, myUpperObstacle1.Y, myUpperObstacle1.width, myUpperObstacle1.height);
-        image(pipedownimg, myUpperObstacle1.X - 1, myUpperObstacle1.Y, pipedownimg.width * ((myUpperObstacle1.width + 2)/pipedownimg.width), pipedownimg.height * (myUpperObstacle1.height/pipedownimg.height));
-
+        image(pipedownimg, myUpperObstacle1.X - 1, myUpperObstacle1.Y, pipedownimg.width * ((myUpperObstacle1.width + 2)/pipedownimg.width), (pipedownimg.height * (myUpperObstacle1.height/pipedownimg.height)) - pipedowncapimg.height);
+        image(pipedowncapimg, myUpperObstacle1.X - 1, (pipedownimg.height * (myUpperObstacle1.height/pipedownimg.height)) - pipedowncapimg.height, pipedownimg.width * ((myUpperObstacle1.width + 2)/pipedownimg.width));
 
         myLowerObstacle1.X = myCanvas.X - (myLowerObstacle1.speed * time) + (myWave.count1 * (myCanvas.X + myLowerObstacle1.width));
         myLowerObstacle1.height = -obstacleHeight + ((myWave.count1 * 8 % 3) * 50);
         rect(myLowerObstacle1.X, myLowerObstacle1.Y, myLowerObstacle1.width, myLowerObstacle1.height);
-        image(pipeupimg, myLowerObstacle1.X - 1, myLowerObstacle1.Y, pipeupimg.width * ((myLowerObstacle1.width + 2)/pipeupimg.width), pipeupimg.height * (myLowerObstacle1.height/pipeupimg.height));
+        image(pipeupimg, myLowerObstacle1.X - 1, myLowerObstacle1.Y, pipeupimg.width * ((myLowerObstacle1.width + 2)/pipeupimg.width), (pipeupimg.height * (myLowerObstacle1.height/pipeupimg.height) + pipeupcapimg.height));
+        image(pipeupcapimg, myLowerObstacle1.X - 1, myLowerObstacle1.Y + pipeupimg.height * (myLowerObstacle1.height/pipeupimg.height), pipeupimg.width * ((myLowerObstacle1.width + 2)/pipeupimg.width)), pipeupcapimg.height ;
+
+        // textSize(10);
+        // fill(0);
+        // text(pipeupcapimg.height, 250, 250);
 
         myUpperObstacle2.X = myCanvas.X - (myUpperObstacle2.speed * time) + ((myWave.count2 - 0.5) * (myCanvas.X + myUpperObstacle2.width));
         myUpperObstacle2.height = obstacleHeight - ((myWave.count2 * 23 % 3) * 50);
@@ -81709,9 +81719,12 @@
         } else {
         rect(myUpperObstacle2.X, myUpperObstacle2.Y, myUpperObstacle2.width, myUpperObstacle2.height);
         image(pipedownimg, myUpperObstacle2.X - 1, myUpperObstacle2.Y, pipedownimg.width * ((myUpperObstacle2.width + 2)/pipedownimg.width), pipedownimg.height * (myUpperObstacle2.height/pipedownimg.height));
+        image(pipedowncapimg, myUpperObstacle2.X - 1, (pipedownimg.height * (myUpperObstacle2.height/pipedownimg.height)) - pipedowncapimg.height, pipedownimg.width * ((myUpperObstacle2.width + 2)/pipedownimg.width));
 
         rect(myLowerObstacle2.X, myLowerObstacle2.Y, myLowerObstacle2.width, myLowerObstacle2.height);
         image(pipeupimg, myLowerObstacle2.X - 1, myLowerObstacle2.Y, pipeupimg.width * ((myLowerObstacle2.width + 2)/pipeupimg.width), pipeupimg.height * (myLowerObstacle2.height/pipeupimg.height));
+        image(pipeupcapimg, myLowerObstacle2.X - 1, myLowerObstacle2.Y + pipeupimg.height * (myLowerObstacle2.height/pipeupimg.height), pipeupimg.width * ((myLowerObstacle2.width + 2)/pipeupimg.width)), pipeupcapimg.height ;
+
         };
 
         myLowerObstacle2.X = myCanvas.X - (myLowerObstacle2.speed * time) + ((myWave.count2 - 0.5) * (myCanvas.X + myLowerObstacle2.width));
@@ -81721,13 +81734,15 @@
         fill(200, 200, 90, 0);
           //Collision logic
           grounded = myBird.Y + myBird.height >= myCanvas.floor
+          outofbounds = myBird.Y <= -1
           upperHit1 = ((myBird.X + myBird.width >= myUpperObstacle1.X) && (myBird.Y <= myUpperObstacle1.height) && (myBird.X <= myUpperObstacle1.X + myUpperObstacle1.width));
           lowerHit1 = ((myBird.X + myBird.width >= myLowerObstacle1.X)) && (myBird.Y + myBird.height >= myLowerObstacle1.Y + myLowerObstacle1.height) && (myBird.X <= myLowerObstacle1.X + myLowerObstacle1.width);
           upperHit2 = ((myBird.X + myBird.width >= myUpperObstacle2.X) && (myBird.Y <= myUpperObstacle2.height) && (myBird.X <= myUpperObstacle2.X + myUpperObstacle2.width));
           lowerHit2 = ((myBird.X + myBird.width >= myLowerObstacle2.X)) && (myBird.Y + myBird.height >= myLowerObstacle2.Y + myLowerObstacle2.height) && (myBird.X <= myLowerObstacle2.X + myLowerObstacle2.width);
           juststarted = (time > 120);
+          collision = grounded || outofbounds || upperHit1 || upperHit2 && juststarted || lowerHit1 || lowerHit2 && juststarted
 
-        if (grounded || upperHit1 || upperHit2 || lowerHit1 || lowerHit2 && juststarted){
+        if (collision){
           collision = true;
         } else {
           myBird.Y = myBird.Y + Vy * timeB + gravity * timeB**2;
@@ -81752,7 +81767,7 @@
       fill(0);
       timeB = timeB + 1;
       fill(255);
-      // text(time, 50, 50);
+      text(time, 50, 50);
 
       score = (Math.floor(2 * (time-175) / myWave.period)) + Math.floor((2* (time-175) + myWave.period/2)/ myWave.period);
 
@@ -81772,7 +81787,7 @@
 
 
     //User input
-      function keyTyped(){
+      function keyReleased(){
         if (value === 0){
           value = 255;
           timeB = 0;
