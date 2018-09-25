@@ -1,7 +1,7 @@
-# node-js-getting-started
+# Flappy bird clone
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
-
-This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
+A browser-based flappy bird clone written in JavaScript with the p5.js library.
+Displayed with HTML/CSS and deployed through Node.js on Heroku.
 
 ## Running Locally
+Needs to be run on a local server due to loading of sprite images with the loadImage() function.
